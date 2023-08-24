@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  nginx:
+    image: nginx:1.25
+    volumes:
+      - type: bind
+        source: ./conf.d
+        target: /etc/nginx/conf.d
+        read_only: true
+      - type: bind
+        source: ./nginx.conf
+        target: /etc/nginx/nginx.conf
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp

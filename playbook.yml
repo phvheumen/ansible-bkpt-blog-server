@@ -37,3 +37,26 @@
       - containerd.io
       - docker-buildx-plugin
       - docker-compose-plugin
+      - python3-pip
+  - name: Install Docker modules for Python
+    ansible.builtin.pip:
+      name:
+      - docker
+      - docker-compose
+
+- name: Configure Nginx
+  tags: nginx
+  hosts: webservers
+  become: true
+
+  tasks:
+  - name: Copy Nginx configuration
+    ansible.builtin.copy:
+      src: ./assets/nginx
+      dest: /var/docker/
+      owner: root
+      group: root
+  - name: Deploy Nginx (docker compose)
+    community.docker.docker_compose:
+      project_src: /var/docker/nginx
+      restarted: true
