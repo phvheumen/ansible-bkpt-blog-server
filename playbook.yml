@@ -50,6 +50,16 @@
   become: true
 
   tasks:
+  - name: Create Nginx SSL certs directory
+    ansible.builtin.file:
+      name: /etc/nginx/ssl/certs
+      state: directory
+      mode: '0755'
+  - name: Create Nginx SSL key directory
+    ansible.builtin.file:
+      name: /etc/nginx/ssl/private
+      state: directory
+      mode: '0700'
   - name: Copy Nginx configuration
     ansible.builtin.copy:
       src: ./assets/nginx
